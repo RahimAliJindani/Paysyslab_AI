@@ -1,0 +1,4 @@
+Upload 1 — All HTML + config (one batch)
+Drag these 8 files together in a single commit:
+paysyslabs-ai.html, talk2data-page.html, expert-report-page.html, mailbox-agent-page.html, calendar-agent-page.html, vercel.json, README.md, ARCHITECTURE.html
+Commit message: Initial site upload
