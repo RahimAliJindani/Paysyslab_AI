@@ -1,0 +1,9 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/paysyslabs-ai.html" },
+    { "source": "/talk2data", "destination": "/talk2data-page.html" },
+    { "source": "/expert-report", "destination": "/expert-report-page.html" },
+    { "source": "/mailbox-agent", "destination": "/mailbox-agent-page.html" },
+    { "source": "/calendar-agent", "destination": "/calendar-agent-page.html" }
+  ]
+}

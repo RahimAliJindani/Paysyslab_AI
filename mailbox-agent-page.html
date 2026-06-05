@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Email Action Agent — Only What Matters, to Slack | PaysysLabs</title>
+<meta name="description" content="AI watches your Microsoft 365 inbox and posts only the emails that need action to Slack. Three digests a day. Nothing important gets buried.">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<style>*{box-sizing:border-box;margin:0;padding:0;}
+:root{--navy:#0D2240;--navy-mid:#1A3A5C;--navy-light:#1E4976;--gold:#C8922A;--gold-light:#E8B84B;--gold-pale:#FDF3E0;--off-white:#F7F9FC;--border:#E2E8F0;--text:#1A2840;--muted:#64748B;--muted-navy:#8BAFD4;--green:#1A7F4B;--green-bg:#E6F4EE;--red:#C0392B;--red-bg:#FDECEA;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--off-white);color:var(--text);line-height:1.6;font-size:15px;}
+nav{background:var(--navy);display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:54px;position:sticky;top:0;z-index:100;}
+.nav-logo{display:flex;align-items:center;gap:10px;}
+.logo-mark{width:30px;height:30px;background:var(--gold);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:14px;color:var(--navy);font-weight:700;}
+.nav-brand{font-family:'DM Serif Display',serif;font-size:17px;color:#fff;}.nav-brand b{color:var(--gold-light);}
+.nav-right{display:flex;align-items:center;gap:18px;}
+.nav-right a{color:var(--muted-navy);font-size:13px;text-decoration:none;}.nav-right a:hover{color:#fff;}
+.hero{background:var(--navy);padding:64px 40px 56px;position:relative;overflow:hidden;}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;}
+.hero-glow{position:absolute;top:-80px;right:-80px;width:500px;height:500px;background:radial-gradient(circle,rgba(200,146,42,0.08) 0%,transparent 65%);pointer-events:none;}
+.hero-inner{max-width:1040px;margin:0 auto;display:grid;grid-template-columns:1fr 420px;gap:56px;align-items:center;position:relative;z-index:1;}
+.hero-label{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--gold-light);font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:7px;}
+.hero h1{font-family:'DM Serif Display',serif;font-size:42px;line-height:1.1;color:#fff;margin-bottom:18px;}
+.hero h1 em{font-style:italic;color:var(--gold-light);}
+.hero-desc{font-size:16px;color:var(--muted-navy);line-height:1.7;margin-bottom:28px;max-width:460px;}
+.hero-ticks{display:flex;flex-direction:column;gap:10px;margin-bottom:30px;}
+.hero-tick{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--muted-navy);}
+.hero-tick i{color:var(--gold-light);font-size:17px;flex-shrink:0;}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;}
+.btn-cta{background:var(--gold);color:#fff;font-size:14px;font-weight:600;padding:12px 24px;border-radius:9px;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px;font-family:'DM Sans',sans-serif;transition:background 0.2s;text-decoration:none;}
+.btn-cta:hover{background:var(--gold-light);}
+.btn-ghost{background:transparent;color:#fff;font-size:14px;padding:12px 22px;border-radius:9px;border:1px solid rgba(255,255,255,0.2);cursor:pointer;display:inline-flex;align-items:center;gap:8px;font-family:'DM Sans',sans-serif;text-decoration:none;transition:background 0.2s;}
+.btn-ghost:hover{background:rgba(255,255,255,0.06);}
+.hero-mockup{background:#0b1a2e;border-radius:14px;border:0.5px solid rgba(255,255,255,0.1);overflow:hidden;box-shadow:0 28px 60px rgba(0,0,0,0.45);}
+.mock-bar{background:#101f35;padding:10px 14px;display:flex;align-items:center;gap:6px;border-bottom:0.5px solid rgba(255,255,255,0.07);}
+.mock-dot{width:10px;height:10px;border-radius:50%;}
+.mock-title{font-size:11px;color:rgba(255,255,255,0.3);margin-left:8px;font-family:monospace;}
+.mock-body{padding:18px 16px;}
+.msg{display:flex;gap:9px;margin-bottom:14px;align-items:flex-start;}
+.msg-av{width:28px;height:28px;border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;}
+.msg-av.u{background:#1E4976;color:var(--gold-light);}
+.msg-av.a{background:var(--gold);color:#fff;}
+.msg-lbl{font-size:9px;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;}
+.bubble{background:rgba(255,255,255,0.06);border-radius:0 8px 8px 8px;padding:10px 13px;font-size:12.5px;color:rgba(255,255,255,0.88);line-height:1.55;}
+.bubble.ai{background:rgba(200,146,42,0.1);border:0.5px solid rgba(200,146,42,0.22);}
+.bubble strong{color:#fff;}
+.bubble .tag{font-size:9px;background:rgba(200,146,42,0.2);color:#fff;padding:2px 8px;border-radius:10px;display:inline-block;margin-bottom:5px;}
+.wrap{max-width:1040px;margin:0 auto;padding:60px 40px;}
+.section-title{font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:var(--gold);font-weight:600;margin-bottom:8px;}
+h2.big{font-family:'DM Serif Display',serif;font-size:30px;color:var(--navy);margin-bottom:12px;line-height:1.2;}
+h2.big em{font-style:italic;color:var(--navy-light);}
+.sub{font-size:15px;color:var(--muted);line-height:1.7;max-width:580px;margin-bottom:32px;}
+.prob-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:48px;}
+.prob{background:#fff;border:0.5px solid var(--border);border-radius:12px;padding:24px 22px 20px;border-top:3px solid var(--gold);}
+.prob-n{font-family:'DM Serif Display',serif;font-size:30px;color:var(--gold);opacity:0.4;margin-bottom:6px;}
+.prob h3{font-size:14px;font-weight:600;color:var(--navy);margin-bottom:8px;}
+.prob p{font-size:13px;color:var(--muted);line-height:1.65;}
+.video-wrap{background:var(--navy);border-radius:16px;padding:36px 40px;margin:0 0 48px;}
+.video-label{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--gold-light);font-weight:600;margin-bottom:8px;}
+.video-wrap h2{font-family:'DM Serif Display',serif;font-size:22px;color:#fff;margin-bottom:8px;}
+.video-wrap p{font-size:14px;color:var(--muted-navy);margin-bottom:22px;max-width:560px;line-height:1.65;}
+.loom-frame{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:10px;background:#000;}
+.vtags{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;}
+.vtag{font-size:12px;color:#fff;background:rgba(200,146,42,0.12);border:0.5px solid rgba(200,146,42,0.25);padding:5px 13px;border-radius:20px;}
+.how-steps{display:grid;grid-template-columns:repeat(4,1fr);position:relative;margin-bottom:48px;}
+.how-steps::before{content:'';position:absolute;top:26px;left:10%;right:10%;height:1px;background:var(--border);}
+.step{display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 8px;z-index:1;position:relative;}
+.step-c{width:52px;height:52px;border-radius:50%;background:#fff;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;margin-bottom:12px;font-size:20px;color:var(--gold);box-shadow:0 2px 10px rgba(0,0,0,0.06);position:relative;}
+.step-n{position:absolute;top:-5px;right:-5px;width:18px;height:18px;border-radius:50%;background:var(--gold);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+.step h4{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:4px;}
+.step p{font-size:12px;color:var(--muted);line-height:1.55;}
+.scenarios{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:48px;}
+.scene{background:#fff;border:0.5px solid var(--border);border-radius:12px;padding:20px 22px;}
+.scene h4{font-size:14px;font-weight:600;color:var(--navy);margin-bottom:6px;display:flex;align-items:center;gap:8px;}
+.scene h4 i{font-size:17px;color:var(--gold);}
+.scene p{font-size:13px;color:var(--muted);line-height:1.6;}
+.scene-eg{font-size:12px;font-style:italic;color:var(--navy-light);margin-top:10px;padding:8px 12px;background:var(--off-white);border-left:2px solid var(--gold);border-radius:0 6px 6px 0;}
+.pull-quote{background:var(--navy);border-radius:14px;padding:40px 44px;margin-bottom:48px;text-align:center;}
+.pull-quote blockquote{font-family:'DM Serif Display',serif;font-size:22px;font-style:italic;color:#fff;line-height:1.5;max-width:680px;margin:0 auto 12px;}
+.pull-quote cite{font-size:13px;color:var(--muted-navy);}
+.rm-two{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:48px;}
+.rm-col h3{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.7px;margin-bottom:14px;display:flex;align-items:center;gap:7px;}
+.rm-col.done h3{color:var(--green);}
+.rm-col.next h3{color:var(--navy-light);}
+.rm-item{display:flex;align-items:flex-start;gap:9px;margin-bottom:9px;font-size:13.5px;color:var(--text);line-height:1.5;}
+.rm-item i{font-size:15px;flex-shrink:0;margin-top:2px;}
+.rm-col.done .rm-item i{color:var(--green);}
+.rm-col.next .rm-item i{color:var(--gold);}
+.gate{background:#fff;border:1px solid var(--border);border-radius:16px;padding:40px 44px;margin-bottom:40px;box-shadow:0 4px 28px rgba(0,0,0,0.06);scroll-margin-top:70px;}
+.gate-top{display:flex;align-items:flex-start;justify-content:space-between;gap:24px;margin-bottom:26px;}
+.gate-top h2{font-family:'DM Serif Display',serif;font-size:24px;color:var(--navy);margin-bottom:8px;}
+.gate-top p{font-size:14px;color:var(--muted);line-height:1.65;max-width:420px;}
+.gate-doc{background:var(--off-white);border:0.5px solid var(--border);border-radius:10px;padding:14px 18px;display:flex;align-items:center;gap:12px;min-width:210px;flex-shrink:0;cursor:pointer;}
+.gate-doc i{font-size:28px;color:var(--gold);}
+.gate-doc .dn{font-size:13px;font-weight:600;color:var(--navy);}
+.gate-doc .dm{font-size:12px;color:var(--muted);margin-top:2px;}
+.aw-badge{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--muted);background:var(--off-white);border:0.5px solid var(--border);padding:5px 12px;border-radius:20px;margin-bottom:22px;}
+.dot-live{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.fg{display:flex;flex-direction:column;gap:5px;}
+.fg.full{grid-column:1/-1;}
+.fg label{font-size:13px;font-weight:500;color:var(--navy);display:flex;align-items:center;gap:5px;}
+.req{color:var(--gold);}
+.fg input,.phone-cc{border:1.5px solid var(--border);border-radius:9px;padding:11px 14px;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--text);background:#fff;outline:none;width:100%;transition:border-color 0.2s,box-shadow 0.2s;}
+.fg input:focus,.phone-cc:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,146,42,0.1);}
+.fg input.err{border-color:var(--red);background:var(--red-bg);}
+.fg input.ok{border-color:var(--green);}
+.phone-row{display:flex;gap:8px;}
+.phone-cc{width:118px;flex-shrink:0;cursor:pointer;}
+.phone-row input{flex:1;}
+.hint{font-size:12px;min-height:16px;display:flex;align-items:center;gap:4px;}
+.hint.e{color:var(--red);}.hint.s{color:var(--green);}
+.form-footer{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:20px;padding-top:6px;}
+.form-legal{font-size:12px;color:var(--muted);max-width:380px;line-height:1.5;}
+.form-legal a{color:var(--navy-light);}
+.btn-submit{background:var(--gold);color:#fff;font-size:15px;font-weight:600;padding:13px 30px;border-radius:10px;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:9px;font-family:'DM Sans',sans-serif;transition:background 0.2s;white-space:nowrap;}
+.btn-submit:hover:not(:disabled){background:var(--gold-light);}
+.btn-submit:disabled{background:#D1D5DB;color:#777;cursor:not-allowed;}
+@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}.spin{animation:spin 1s linear infinite;display:inline-block;}
+.err-banner{display:none;background:var(--red-bg);border:1px solid rgba(192,57,43,0.18);border-radius:9px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:var(--red);align-items:center;gap:9px;}
+.success{display:none;text-align:center;padding:8px 0;}
+.success-icon{width:64px;height:64px;border-radius:50%;background:var(--green-bg);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;}
+.success-icon i{font-size:32px;color:var(--green);}
+.success h3{font-family:'DM Serif Display',serif;font-size:24px;color:var(--navy);margin-bottom:8px;}
+.success p{font-size:14px;color:var(--muted);margin-bottom:24px;max-width:460px;margin-left:auto;margin-right:auto;line-height:1.65;}
+.btn-dl{background:var(--navy);color:#fff;font-size:15px;font-weight:500;padding:13px 30px;border-radius:10px;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:9px;font-family:'DM Sans',sans-serif;transition:background 0.2s;}
+.btn-dl:hover{background:var(--navy-light);}
+footer{background:var(--navy);padding:22px 40px;display:flex;align-items:center;justify-content:space-between;}
+footer p{font-size:12px;color:var(--muted-navy);}
+.footer-links{display:flex;gap:20px;}
+.footer-links a{font-size:12px;color:var(--muted-navy);text-decoration:none;}
+.footer-links a:hover{color:#fff;}
+@media(max-width:900px){
+  .hero-inner{grid-template-columns:1fr;}.hero-mockup{display:none;}
+  .prob-row{grid-template-columns:1fr 1fr;}
+  .how-steps{grid-template-columns:repeat(2,1fr);gap:20px;}.how-steps::before{display:none;}
+  .scenarios,.rm-two,.form-grid{grid-template-columns:1fr;}
+  .gate-top{flex-direction:column;}.form-footer{flex-direction:column;align-items:flex-start;}
+  nav,.wrap,footer,.gate,.video-wrap{padding-left:20px;padding-right:20px;}
+  .hero{padding:44px 20px 48px;}.video-wrap{padding:28px 20px;}
+}</style>
+<!-- GA4 — PaysysLabs AI Demos -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-XXXXXXXXXX', { 'anonymize_ip': true });
+// Replace G-XXXXXXXXXX with your GA4 Measurement ID
+</script>
+<!-- LinkedIn Insight Tag — ANZ Retargeting -->
+<script type="text/javascript">
+_linkedin_partner_id = "XXXXXXX"; // Replace with your LinkedIn Partner ID
+window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
+window._linkedin_data_partner_ids.push(_linkedin_partner_id);
+(function(l) {
+if (!l){window.lintrk = function(a,b){window.lintrk.q.push([a,b])};
+window.lintrk.q=[]}
+var s = document.getElementsByTagName("script")[0];
+var b = document.createElement("script");
+b.type = "text/javascript";b.async = true;
+b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
+s.parentNode.insertBefore(b, s);})(window.lintrk);
+</script>
+<noscript><img height="1" width="1" style="display:none;" alt="" src="https://px.ads.linkedin.com/collect/?pid=XXXXXXX&fmt=gif" /></noscript>
+</head>
+<body><nav>
+  <div class="nav-logo"><img src="Paysys_Logo_White.png" alt="PaysysLabs Logo" style="height:30px;width:auto;"></div>
+  <div class="nav-right">
+    <a href="paysyslabs-ai.html#demos">&larr; All tools</a>
+    <a href="https://paysyslabs.com">paysyslabs.com</a>
+    <a href="#pocForm" style="background:var(--gold);color:#fff;font-weight:600;padding:6px 16px;border-radius:6px;font-size:12px;">Book a demo</a>
+  </div>
+</nav><section class="hero">
+  <div class="hero-grid"></div><div class="hero-glow"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-label"><i class="ti ti-mail-ai"></i> Email Action Agent &middot; Live Demo</div>
+      <h1>Only what matters.<br><em>Straight to Slack.</em></h1>
+      <p class="hero-desc">An AI agent watches your Microsoft 365 inbox and posts only the emails that genuinely need your attention to Slack &mdash; three times a day. Nothing important gets buried again.</p>
+      <div class="hero-ticks">
+        <div class="hero-tick"><i class="ti ti-check"></i> Reads and classifies every email in your M365 inbox</div>
+        <div class="hero-tick"><i class="ti ti-check"></i> Posts only the actionable items to Slack &mdash; 9am, midday, 5pm</div>
+        <div class="hero-tick"><i class="ti ti-check"></i> Filters out newsletters, auto-replies, and noise automatically</div>
+        <div class="hero-tick"><i class="ti ti-check"></i> One /setup command &mdash; connected permanently after that</div>
+      </div>
+      <div class="hero-btns">
+        <a href="#demo-video" class="btn-cta"><i class="ti ti-player-play"></i> Watch the demo</a>
+        <a href="#" class="btn-ghost" id="downloadDeckBtn"><i class="ti ti-download"></i> Download our Product Deck</a>
+      </div>
+    </div>
+    <div class="hero-mockup">
+      <div class="mock-bar">
+        <div class="mock-dot" style="background:#FF5F56"></div>
+        <div class="mock-dot" style="background:#FFBD2E"></div>
+        <div class="mock-dot" style="background:#27C93F"></div>
+        <span class="mock-title">Slack digest &middot; 9:00 AM</span>
+      </div>
+      <div class="mock-body">
+        <div class="msg"><div class="msg-av a">AI</div><div><div class="msg-lbl">Email Agent &middot; 9:02 AM digest</div>
+          <div class="bubble ai"><span class="tag">3 ITEMS NEED YOUR ACTION</span><br>
+            <strong>1.</strong> Sarah Chen &mdash; <em>Contract approval needed by 5pm today</em><br>
+            <strong>2.</strong> Operations &mdash; <em>Q3 budget sign-off outstanding</em><br>
+            <strong>3.</strong> Michael Park &mdash; <em>Urgent: client escalation reply needed</em>
+          </div></div></div>
+        <div class="msg"><div class="msg-av a">AI</div><div>
+          <div class="bubble ai"><span class="tag">47 EMAILS FILTERED</span><br>
+            Newsletters (18), auto-replies (12), CC-only (17) filtered out.
+          </div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="section-title">The problem</div>
+  <h2 class="big">100+ emails a day.<br><em>The important ones still get missed.</em></h2>
+  <p class="sub">Volume is the enemy of attention. Critical approvals, escalations, and decisions get buried under newsletters and auto-replies &mdash; and by the time they surface, the moment has passed.</p>
+  <div class="prob-row">
+    <div class="prob"><div class="prob-n">01</div><h3>Critical items buried in noise</h3><p>The average professional receives 120+ emails a day. Approvals, decisions, and escalations compete with newsletters for the same attention.</p></div>
+    <div class="prob"><div class="prob-n">02</div><h3>Checking email constantly breaks focus</h3><p>Inbox zero culture creates a context-switching tax. Every check &mdash; even a quick one &mdash; costs more than the seconds it takes.</p></div>
+    <div class="prob"><div class="prob-n">03</div><h3>Things fall through the cracks</h3><p>A missed approval, a late response, an unanswered escalation &mdash; they all start with an email that got buried.</p></div>
+  </div>
+
+  <div class="video-wrap" id="demo-video">
+    <div class="video-label"><i class="ti ti-player-play" style="font-size:11px"></i> &nbsp;See it in action</div>
+    <h2>Watch the agent classify a real inbox</h2>
+    <p>Live demo of the agent processing a Microsoft 365 inbox and posting the digest to Slack &mdash; in real time.</p>
+    <div class="loom-frame" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:10px;">
+      <video controls preload="metadata" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;background:#000;" aria-label="Email Action Agent demo video">
+        <source src="Email actions.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+    <div class="vtags">
+      <span class="vtag">Microsoft 365 native</span>
+      <span class="vtag">Slack digest 3x daily</span>
+      <span class="vtag">Noise filtered automatically</span>
+      <span class="vtag">2-minute setup</span>
+    </div>
+  </div>
+
+  <div class="section-title">How it works</div>
+  <h2 class="big">Set it up once. <em>It runs every day after that.</em></h2>
+  <p class="sub">Four steps from inbox chaos to a clean Slack digest &mdash; automated from that point on.</p>
+  <div class="how-steps">
+    <div class="step"><div class="step-c"><i class="ti ti-plug"></i><span class="step-n">1</span></div><h4>Run /setup in Slack</h4><p>Connect your M365 inbox once. Takes 2 minutes.</p></div>
+    <div class="step"><div class="step-c"><i class="ti ti-mail"></i><span class="step-n">2</span></div><h4>Agent reads your inbox</h4><p>Every email, classified automatically.</p></div>
+    <div class="step"><div class="step-c"><i class="ti ti-filter"></i><span class="step-n">3</span></div><h4>Noise filtered out</h4><p>Newsletters, auto-replies, and CC-only removed.</p></div>
+    <div class="step"><div class="step-c"><i class="ti ti-brand-slack"></i><span class="step-n">4</span></div><h4>Digest posted to Slack</h4><p>Only actionable items &mdash; 9am, midday, 5pm.</p></div>
+  </div>
+
+  <div class="section-title" style="margin-top:48px">What it handles</div>
+  <h2 class="big">Works for <em>any email-heavy role</em></h2>
+  <p class="sub">Six categories the agent classifies and surfaces so the right person sees the right item at the right time.</p>
+  <div class="scenarios">
+    <div class="scene"><h4><i class="ti ti-check"></i> Approvals and sign-offs</h4>
+      <p>Emails requiring a decision or approval are flagged immediately &mdash; never buried under a Monday morning pile.</p>
+      <div class="scene-eg">"Contract approval needed by EOD" surfaced in the 9am digest &mdash; actioned before 10am.</div></div>
+    <div class="scene"><h4><i class="ti ti-alert-triangle"></i> Escalations and urgencies</h4>
+      <p>Client escalations, system alerts, and flagged issues are classified and surfaced regardless of when they arrive.</p>
+      <div class="scene-eg">Client escalation at 7pm surfaces in the 9am next-day digest &mdash; first thing in the morning.</div></div>
+    <div class="scene"><h4><i class="ti ti-clock"></i> Time-sensitive replies</h4>
+      <p>Emails that contain deadlines, meeting requests, or time-bounded asks are classified as high-priority automatically.</p>
+      <div class="scene-eg">"Can we confirm by 3pm?" flagged in midday digest with full context.</div></div>
+    <div class="scene"><h4><i class="ti ti-user"></i> Direct asks from key contacts</h4>
+      <p>Configure a VIP list. Any email from a named contact is always surfaced, regardless of the content.</p>
+      <div class="scene-eg">Board member email always appears in digest &mdash; even if it looks like a routine update.</div></div>
+    <div class="scene"><h4><i class="ti ti-trash"></i> Noise filtered out</h4>
+      <p>Newsletters, marketing, auto-replies, and CC-only emails are removed before the digest. You never see them in Slack.</p>
+      <div class="scene-eg">47 emails received on Monday. 3 surfaced to Slack. 44 filtered. All 44 still in Outlook, untouched.</div></div>
+    <div class="scene"><h4><i class="ti ti-eye"></i> Reply tracking</h4>
+      <p>Once you reply from Outlook, the task auto-closes in the Slack digest. No manual cleanup, no double-handling.</p>
+      <div class="scene-eg">Replied to the contract email in Outlook at 10:15am. Digest item auto-resolved by 10:16am.</div></div>
+  </div>
+
+  <div class="pull-quote">
+    <blockquote>"Your inbox is not a to-do list. The agent makes sure only the actual to-dos reach you."</blockquote>
+    <cite>&mdash; The thinking behind the Email Action Agent</cite>
+  </div>
+
+  <div class="section-title">What's built &mdash; and what's next</div>
+  <h2 class="big">Running today. <em>Getting smarter.</em></h2>
+  <p class="sub" style="margin-bottom:24px">Core agent is live. Here's where it stands and where it's going.</p>
+  <div class="rm-two">
+    <div class="rm-col done"><h3><i class="ti ti-circle-check"></i> Live today</h3>
+      <div class="rm-item"><i class="ti ti-circle-check"></i><span>Microsoft 365 inbox connection via /setup</span></div>
+      <div class="rm-item"><i class="ti ti-circle-check"></i><span>3x daily Slack digest &mdash; 9am, midday, 5pm AEST</span></div>
+      <div class="rm-item"><i class="ti ti-circle-check"></i><span>Noise filtering &mdash; newsletters, auto-replies, CC-only</span></div>
+      <div class="rm-item"><i class="ti ti-circle-check"></i><span>Auto-close on Outlook reply</span></div>
+      <div class="rm-item"><i class="ti ti-circle-check"></i><span>VIP contact list configuration</span></div>
+      <div class="rm-item"><i class="ti ti-circle-check"></i><span>Full email still accessible in Outlook &mdash; nothing deleted</span></div>
+    </div>
+    <div class="rm-col next"><h3><i class="ti ti-rocket"></i> Coming next</h3>
+      <div class="rm-item"><i class="ti ti-brand-google"></i><span><strong>Gmail support:</strong> Google Workspace inbox integration</span></div>
+      <div class="rm-item"><i class="ti ti-message"></i><span><strong>Reply from Slack:</strong> respond to emails without opening Outlook</span></div>
+      <div class="rm-item"><i class="ti ti-users"></i><span><strong>Team digests:</strong> shared digest for shared inboxes or team aliases</span></div>
+      <div class="rm-item"><i class="ti ti-settings"></i><span><strong>Custom rules:</strong> build your own filters and routing logic</span></div>
+    </div>
+  </div>
+
+  <div class="gate" id="gateSection">
+  <div class="gate-top">
+    <div>
+      <h2>Book a Demo</h2>
+      <p>Schedule a demo to explore how our solution can support your organization's objectives.</p>
+    </div>
+    <div class="gate-doc" id="brochureBtn"><i class="ti ti-file-type-pdf"></i>
+      <div><div class="dn">Get our Product Brochure.</div></div>
+    </div>
+  </div>
+  <div class="err-banner" id="errBanner"><i class="ti ti-alert-circle"></i><span id="errMsg"></span></div>
+  <form id="pocForm" action="https://formspree.io/f/xbdejwbg" method="POST" novalidate><div class="form-grid">
+    <div class="fg full"><label>Full name <span class="req">*</span></label>
+      <input type="text" id="f-name" name="name" placeholder="Jane Smith" autocomplete="name"><div class="hint" id="h-name"></div></div>
+    <div class="fg full"><label>Business email <span class="req">*</span></label>
+      <input type="email" id="f-email" name="email" placeholder="jane@yourbusiness.com.au" autocomplete="email"><div class="hint" id="h-email"></div></div>
+    <div class="fg full"><label>Phone number <span class="req">*</span></label>
+      <div class="phone-row">
+        <input type="tel" id="f-phone" placeholder="04XX XXX XXX" name="phone">
+      </div>
+      <div class="hint" id="h-phone"></div></div>
+    <div class="form-footer">
+      <p class="form-legal">By downloading, you consent to PaysysLabs collecting your contact details to follow up about this guide. One follow-up only, no spam. <a href="#">Privacy policy</a>.</p>
+      <button type="submit" class="btn-submit" id="submitBtn">Submit</button>
+    </div>
+  </div></form>
+  <div class="success" id="gateSuccess">
+    <div class="success-icon"><i class="ti ti-circle-check"></i></div>
+    <h3>On its way!</h3>
+    <p>Your guide is downloading now. Someone from the PaysysLabs Australia team will be in touch shortly &mdash; just once.</p>
+    <button class="btn-dl" onclick="doDownload()"><i class="ti ti-download"></i> Download again</button>
+  </div>
+</div>
+</div>
+<script>const POC_ID='mailbox-agent-v1';const PDF_FILE='PaysysLabs-Email-Agent-Guide.pdf';const PDF_B64='JVBERi0xLjQKJZOMi54gUmVwb3J0TGFiIEdlbmVyYXRlZCBQREYgZG9jdW1lbnQgKG9wZW5zb3VyY2UpCjEgMCBvYmoKPDwKL0YxIDIgMCBSIC9GMiAzIDAgUiAvRjMgNSAwIFIgL0Y0IDYgMCBSCj4+CmVuZG9iagoyIDAgb2JqCjw8Ci9CYXNlRm9udCAvSGVsdmV0aWNhIC9FbmNvZGluZyAvV2luQW5zaUVuY29kaW5nIC9OYW1lIC9GMSAvU3VidHlwZSAvVHlwZTEgL1R5cGUgL0ZvbnQKPj4KZW5kb2JqCjMgMCBvYmoKPDwKL0Jhc2VGb250IC9IZWx2ZXRpY2EtQm9sZCAvRW5jb2RpbmcgL1dpbkFuc2lFbmNvZGluZyAvTmFtZSAvRjIgL1N1YnR5cGUgL1R5cGUxIC9UeXBlIC9Gb250Cj4+CmVuZG9iago0IDAgb2JqCjw8Ci9Db250ZW50cyAxMSAwIFIgL01lZGlhQm94IFsgMCAwIDU5NS4yNzU2IDg0MS44ODk4IF0gL1BhcmVudCAxMCAwIFIgL1Jlc291cmNlcyA8PAovRXh0R1N0YXRlIDw8Ci9nUkxzMCA8PAovY2EgLjAyNQo+PiAvZ1JMczEgPDwKL2NhIDEKPj4KPj4gL0ZvbnQgMSAwIFIgL1Byb2NTZXQgWyAvUERGIC9UZXh0IC9JbWFnZUIgL0ltYWdlQyAvSW1hZ2VJIF0KPj4gL1JvdGF0ZSAwIC9UcmFucyA8PAoKPj4gCiAgL1R5cGUgL1BhZ2UKPj4KZW5kb2JqCjUgMCBvYmoKPDwKL0Jhc2VGb250IC9aYXBmRGluZ2JhdHMgL05hbWUgL0YzIC9TdWJ0eXBlIC9UeXBlMSAvVHlwZSAvRm9udAo+PgplbmRvYmoKNiAwIG9iago8PAovQmFzZUZvbnQgL0hlbHZldGljYS1PYmxpcXVlIC9FbmNvZGluZyAvV2luQW5zaUVuY29kaW5nIC9OYW1lIC9GNCAvU3VidHlwZSAvVHlwZTEgL1R5cGUgL0ZvbnQKPj4KZW5kb2JqCjcgMCBvYmoKPDwKL0NvbnRlbnRzIDEyIDAgUiAvTWVkaWFCb3ggWyAwIDAgNTk1LjI3NTYgODQxLjg4OTggXSAvUGFyZW50IDEwIDAgUiAvUmVzb3VyY2VzIDw8Ci9Gb250IDEgMCBSIC9Qcm9jU2V0IFsgL1BERiAvVGV4dCAvSW1hZ2VCIC9JbWFnZUMgL0ltYWdlSSBdCj4+IC9Sb3RhdGUgMCAvVHJhbnMgPDwKCj4+IAogIC9UeXBlIC9QYWdlCj4+CmVuZG9iago4IDAgb2JqCjw8Ci9QYWdlTW9kZSAvVXNlTm9uZSAvUGFnZXMgMTAgMCBSIC9UeXBlIC9DYXRhbG9nCj4+CmVuZG9iago5IDAgb2JqCjw8Ci9BdXRob3IgKFBheXN5c0xhYnMpIC9DcmVhdGlvbkRhdGUgKEQ6MjAyNjA2MDMxMDU1NDMrMDAnMDAnKSAvQ3JlYXRvciAoXCh1bnNwZWNpZmllZFwpKSAvS2V5d29yZHMgKCkgL01vZERhdGUgKEQ6MjAyNjA2MDMxMDU1NDMrMDAnMDAnKSAvUHJvZHVjZXIgKFJlcG9ydExhYiBQREYgTGlicmFyeSAtIFwob3BlbnNvdXJjZVwpKSAKICAvU3ViamVjdCAoXCh1bnNwZWNpZmllZFwpKSAvVGl0bGUgKE1haWxib3ggQWdlbnQpIC9UcmFwcGVkIC9GYWxzZQo+PgplbmRvYmoKMTAgMCBvYmoKPDwKL0NvdW50IDIgL0tpZHMgWyA0IDAgUiA3IDAgUiBdIC9UeXBlIC9QYWdlcwo+PgplbmRvYmoKMTEgMCBvYmoKPDwKL0ZpbHRlciBbIC9BU0NJSTg1RGVjb2RlIC9GbGF0ZURlY29kZSBdIC9MZW5ndGggMzkxMQo+PgpzdHJlYW0KR2IiLypsWjpmPScqIyxMQF0pI01FU0gtbTVTLDIqXHVzTlJTYiROcmhQNjhmMV4yITstck1Aalw9MHJtcmNbZlVqaVdhVlw5IjRsSCdlXypsbjgjJV9aRighI2s5UnM1RHBpJ1tvPChhLG0yLnEzWDZ1NSFSalwkVDInaicwYCxKK0pnX0MzIkdwWVRSS3NsayQsU1tHO0AkQW1JaiFbXGZlK1ZaKllhQVJMbyY8XEtbOzM5SWwuT3E8KCdERiYxOVJVKTMwcSokKUpbdUAxNEQ0LVRvOj4yMlBGczg6ZTc0SjJIMkheOzNtLiQiIS5tTVFaWSFHTDZyakIwaW9vPiMib2MkKGA5UjtiU0lhV3BqS1MwTCddWGAyPk8tJyknJm1Cazs5bE9dR0wmOD80PC5HTThjdC46UV1bQ15ESi1eUChqdDBgP21jQGU9bj03VlhcXV5qZiFII1l1VyRGSVZcUl5bPVJlcDhFJGBNWzBFSThPciU7QFNAcFxBcytwNzRHYjRQLDhNU2YoUVVqU2RVZyZRKHMrVWo9ZFY0ZC5rUDRhK3BMSmc1NHRNaiJRNC5PMWlwSF5CMilbMTxCanNsX2JUcmBdbUstby91J1pIRG8tMjtFWyE6KUpLYGAuJWA5RjU3KDIzRkpPb1JfYCpwVnFCSkQ8ZTJyYyVDLjxtbjRMWXQwaFVFSTltO2JbWy9cZSJiVDpmQW5sK19cYGRqX2ZQNGNIdUJZR0VRa1ttazIzYCg3Z0dhLSExWHJLZnAlIj5uSjFPVG9XK28/QTpZTjU0dCRPcGNiUSQ+M2JGUDx1Tl01KlZGJCEmUkMvdWM0KTs4TmQ+M1FOMzhyNGU4VjJLPVQ2WkI/dSZmSlNRN2w4KDhaYSk/JiliJiRvYmJYSEExPElmMjZJJFxDI0hfMjE9Pyg2VDhiJmU7bDNVISopKyxKMV5LcW9mSUpNL1VGJ0FhTi9yNiRYImVvIkNbTzcvW3Q3TUhvMzUuTWoiLk9pLWRLQSNkUSFNJEo9Pzk6ZDVGWjpDa0ZrTm1WJyNORzwuJjVxNmxZVm5zInQvVT1vWkxhViJYJzZIckNQWmhsW1BXOHJsJlNFPSNnYUpFNDhGSVxtKl5HJkc0WCg/anJlVnRLRlQ/ZHFmYjh0X2U/Plxua1RrQEI0cEkmK3I4NltNNT5FbTJHbi1gUjx1NHJlZSg3TktyclNfKjNrYCVWWU1uZDtvXiFbMmtPI2w/RGRFTUU0KyRTcW0vNjZtY2EmLVJPPztAOSo5VyhPOFxBRWxBVGNpLCRFIjgzcENDVjRpV3RrWzdnbjpJLVpFKUlgPFRLcGVUXDYzZWgqK0QxM2gvdFBOaDBfJSs6XTBhL1JIaSVCKThaWCIpXEtxLCdIN0ZfMDFmRlYiRkZoSUYhVmNhcjtkW3EzOU1HVmEuLEgmcFJpU2pCOj49VS9cdUY3NSg3YnQ+QmhZQGA7Zy1zS10yYDgsI1hiWC9kaUgmRScjU25lPytuXkRqcVtxMSc8WEBXXC9ccTM7bVNSZmtBalhxTz1dP2JGVT5rNThjZSVfSDsnN0c0UXJiPzg2ZS9CUSFlIkVURFI6JVFgS2U5O0ZxXzFfX2onL1BCRDVZbSdbWFY+X2JoVmVzcD8jTTFyN10+OV4qTCg8Ql9PSkgtU24qQl88bTYhJ1FcNUxeMEUtaTFvYzJCSlFcdFxtJydday1sTCxwI1RZOSgjaDN0O183QXI9Vz1UV0o9Tyhja2w7K1FePnJGOTZrXzYmKFROZSw1IUNwTTdbMCQ6L10/b1NHUT5iLEFOJGZONixlI0FrS2xwWEtWYGUsPU9tZ1NiV2JRRlYkMHRSazt0UkFkK2FnI2FFYHB1V2UiKT5OaytjWzBPPnBLYGk0P250NyYkYzA8RTE9U1pwSD44KVdQQyMqQVwrV1U5QCpTPDFuRi1rPm9cY1knWkVlK2c0R3JOPTJDMzMzOzNpTlglLmtxV1NSZjlPZWp1XlkqdVdwZFNsOlpZUDkzNl9AXmUkOm1RNVdjQ09CTyVDdUspPVRKP29lT2Y7YlpodD1fP0xoM29RKC1WPlNxaS1aaS1TSytdKy8lQmIzISUzKTpsNCIrQGc4RSVrVEo3bClIKmg0VGpjJ3BMOS0kX18zSy90blQ+Si9lOjg9JjtcYU9hR2xTOzM1TEZgKXNyYDk3ZmAmUURQVz5nWUVVZGlXT1tcJUM8ZjE+K3ReVkwoPVUqYUc2QjIpMylMb11XNWY8ZnRHdFcxJFFVOE1QaSkwZFU8Pi1qUj4vYjZSTm4uM3BLRHRbQTA3UEBaODoiSzZKOEghQDZWWy1mJ11CQXQ2alhXamNycVdhRj9AbDswRiQoT2F1ZCFGM2leKkxMYW43T1tLISspZFdQX2czIlwxR1E7XXFkLVtqQzhlKkg5bnMrSyQkImJrUFxtSSUoY2s6REcyPHIhYzJjPCVWOyg/b1FHO0pbVCtCck9TaHF0N2B0J0RMZm1TdCMmbSNWIUpyNUAsU2QtXytkcU9VdTwoN2drODJsclZwZ1BgXC4qTjx1UkAzaWshaG8pTT1IOGxzUixcODpXIyhZdUpZZyYpTmUnbUBlRkBUV0VbUl85WloraTY3WDdhcGtcYGxgPyxKOTdaUlNZbTtSQGMrTz4xVy9iZl5qT04qOkdUQUVfcTRNR2sqPE86M0FjMUBcZGZHb1smTzxXR3E9YWZuXjcjTWU7PEAsVUdBa0hVVC8nOFpaIzYyW2gjNyxaWjwzbTpvZyloYmZbKzMwa2lVKjw6RTxySy11W0c8YVI1OzxKYTlHTSxvOmxJcjZZOnQwSHMvIV9ETlRpWEdFQSV1VS5taSgpRC9nPCtHTlpKIjpfJitMQEZLW21BJjhxcTNOYTg+NCUlKSUxT2s6Kl9TYFBYRi86YlU4ZE8qYF0xMFAuMztuTlc6Qy1vYzVcTDJYJCg6ZzxhU19VL25yOShdcE1QXChXNExrLFJFc1RtMDhtSmAkKyluWzVfVGY/NSJAVUtsUk1AbWVmTFltMmdJSztWLTcza0QvTUBNNWhAbVwkdSgnWGY2VnAjXCwwM0kuS10pKk11XnUhXSVDQ1tdVk07QDpTPlwrO2BgZGtQY0lQOFJqZic7VVQwY1dtJTg9XS1ZMzNsK0xCQ2JUKWVddSNnZmFvIkxQPGJxX19kc2lZLGQwZHInVllSKGNcKlJUOk1TUnRKP1A3XD1wQFMxTCxqWkt0OWVdWmIhcTUqaWEtL1Q6U0prWGVwLGAkQ2dvP0ZwJ2gsaC1xQWYtLUVWU2BxQjshO3JRZmZVWT50YSI4Ti4jbFJjMG9DVkpYUEZqUSk6UDZiUmdqPnRPcDQpTWc9YVdXXkprIzU5QGo1PDQtMC0qITguWm5BRVlaU11kci10alwjJyhBQmNCRChPLWQjNykpMWJwa18kSUErKjFdbCdAVl82OTJnPWFHQ3I0KzdgPl40Zi4tLFRuMm5TcjdvWmpnXHNcZHMhYD5tXDg4Ny4xZC5iP1pVUlhxU0cnbTphQnE3VEVbTk9aP09cZDpeOWpaRlVUQ3FuWE5eVltlSWxTWmJFMXIvS0JOUyRrU2BOaUkobXQpUTJURitMSE0oZlhqKSJSYzJNUGtIRDhMNlEuN2EtYTw9bl9dNz1CcUdeTkAxZCUxVmJTUTRCcC5SK2ohVU5sPDMoIVo+MWpSRF0lMFE0cihtNFhNVjZFKyptMzknYTM6QEQ6WUBCL3EkMmM8LzddLFw4Ky5HM0I4UD1jYHAjTnRRP0FYYEFmWWVFQGsqRSdxaDZnZWttPzpMMmAiMUgpTGtDPEVAJTxaSkQoQjcvVTE0WEtnSz1VYmknO2lWQCFnRyNzMFlUJEBNJiMxdCVHJm5gTGdbOz8rMCZyPXFLdGJGai5mWTxvPHJKJDwzNk9gPVRmIVY5RCI0MzI5K1otQDs1LyVaMj5wUT9eLmsnZyU7aVxNQV8kNGpCUUlBUmczMCdxW1UjLSdKOyhLY09jPUA/ZzoiY2IwWz5oQmNgKVlSRiI5YS5LW0pSPV8wMURUK1czJUpdOlcnVzRIZTR0TWg8OWBiWlg9YkczMlVPMixnaEs8PTpxRj9fa19ScjdHIVc9KVReQFM2aWpSckxnRyJNJGtKYk8iT1lwbyJfVyxrXStgXGBcZiFUcUYkc2BqPklmLWJoQDQ3Sy90KF02cEEocmlBXkU0UGptOzcsTF0ncXFRbXBnPF1HQSkoMl9NWG8sYVNaTDhLW25sJSkhcm4oLWtnMDMjRFxARjIscjY+XyJXKVRSNUkqQiJTK1xjWiNBRjR1JjgoQEZXQi9UKm5UXU8lW1o7JGE3XlxAQmo3PzBJcj9Ha1k4X0x0TD0qT05wWmdxXmtBWTlkW2c6NCJuK0o0JiRnOFtFNlpfbW1QVCg0ITMrbE1IdGtDI2BFZEBtZlJcLTo0XEpfKVhISiQtdFxFOzQnWypFLD1SWkowJk49O0JXSmlIbyk6ZGtMPEQhNmlLTW4yUEwjW1w4ImdONDJVSUU5LWRkRkFcb2xRXDksaSQ2U2BaamgzUjs7YXM4TCEmTTIiZEFFV2MkPmUvWiNKRUVJNTZLMiskLV1cZiI0U05cXjImNilWLjU8JFhAVV1SNWk+O2oiT2hgUVs+ZGs6NkAqMVJEZWg2M0E4byo2TitZX3E6QC40ZkVISj9bJ1JaJDtYUUcsc2JgbWcsTnNNNWJgMDZkUz9NRXIsVltwYm88P2ZXdT5sWVhLVV80Lk44YUgqKGooQD0jN3RdMzJqLl9PKzVNW10zWiI8NyxDP0VwMmY2QzBvdTFcYyw0NFdwVyo7bnFOJkVbJ29AJlRAJHRoZShpTzg1YGkwTUQ9XD9qcWNbRUw6X3FTaW1lYlksO1U0az5VJVllNyhRX19RVC87OVUpNW9KRCsmcU9DJl1UXEwnUjtlJVxPJVl1I0JmWERsS1BuZUwpZkgwOHNMOy9aMldtPGc+IlVSckcwLyxmLT8pPWcwJWhTOzNiRmpiPyhDOmVWY1V1Oy1tL2gwb2dWcSh0OXFKPDdSaDlLUVtnYzRpYDYjazhRYj4hUnAjay4ncSRSVTA2KTw1aHIuKGYqVSRALGBvdGpCSFApMzU1R3NTaUFKMGUuLCxkQlNqVSpeSE9LKi1IT0Y6NTVvLUdMXnBjZiZARG4xNVI0dE9LMF9sZipXQW0kfj5lbmRzdHJlYW0KZW5kb2JqCjEyIDAgb2JqCjw8Ci9GaWx0ZXIgWyAvQVNDSUk4NURlY29kZSAvRmxhdGVEZWNvZGUgXSAvTGVuZ3RoIDI3MTYKPj4Kc3RyZWFtCkdhdUhNPj5zUUEoNFBGSlNFZCxSYjRJVTNubD10J1IqQEheJiVmJ2A1XiolJD9cRzBjJiU6USgqVSRKaU81RDJYUlpLTCNQNikpLWZvalgpTm0/R2BEIz5VQUohOiQ0M2U9VUYhbFRaMyUjQVBBMFkpZV1QRVdhVjgzUEduL19CYCUoVyp0c0JeIkQxbzJiblIlanF1O1xIMks2QkRGai9pIlFGLEpEJ2Y1Z01EQz0pQi0mWGlPa2dLK2ZJPCw2TCksIiIzVjJxaGReJlZeXktQJmhMaTJeOEg9dChscStmQDgrNDE7KCFMcSg7TyVNMjk0QlcwO0YubUkvNkE1aEdRTlNcamosWFYnLjMwVkZLT1ZnMDdTOSE0P3VfbWksOGpaMFA2JFs0OmtadVshZUVAYDkkOCtZVCxIKExaYE1ARzouVlZic2MlYDVbOTJScF0xKDNIN1dJJG5ldUpQJ29PIjgoPUhhNl5pSC0zNnA3LnAxLl5Da2JHbmguO0c5JHJyWzdeREgiJ1ZoMzIkaXU2UDs7SyYrXiY1IjFcO01KZFYsKWtXbWo5IUtJZiYxR0Erb0Y1JmhWQHVXRj4xYi5Ycy5eby9kYkY4MUNcb011UTVjP10/WFtdTE1gUmVROk5HaCZbRnVmQnJDJUBuTmNUVUVHZl8jXWNKU1I5RUtYQiZEWF1hQmFIUXVhc0FiZE04LzhPUl5DMS5haURlYjs2UyhgYFcnJWJmSU5ZVyFaPktCTnBPczUuSWU4YkchKCMtRUFrXFFdbkBwYjtiZ19aVCNRdVtgUys+LXNrOHQwWTQ9ZzxOLl4oZ0JkYjl0Tj5EKGtnXFhYPjxdOTlsSDJqanNDJF5wWTU/O1lsT1NeV3NDYCs+P2R0clc4b19dWWlPaTdVUFtXViglYTBGQilSPE9tRjVHWjpnPlNFMF5maypvVTJtaipxMEQwQlEqS2ZabkNfOzs0KmFyb1I9Jy5qPlFpVHNwPS1JM1NyVktaZixTSWgzMUE1bFAqJTojaW9jP0MlL14qOUVwOVBVbSM3LV9zNmxTRkltLGdJbVVGZjExZlIyajcwOV8mN1hCZVIqOTxGaFJaJ05eMzhZYjJXVUs8Llo8Y2A9WGI1LHNPWiJeZi8+N1UpbSdONHRHU1g4PE1NIkBUaHRVUyNcc3FiRDFYaW47aCEnKCEscGlqbUljaj9aLXQ6RUttTGoraWRyMVQkP3FibSVpTVthViFhbyQ5bEVSMEY8YFE4ZlZPXU9tbV5bSkMlQypHYCJOWjUkaklwRSVIPyRyaVVZUHEtVCVaamtJSWMvLFleY08jLWZDJlhBYGQoJjFTP1t1bmg/XkBDOj1jYXVWcSJSPEg/KCRXRVFNYjs0V05EUnM5UWJeIXVraEhmUTcqLktiTiVyI2kvKShwMzZqRydyUmlOKF5vUFgxKFlOQz5EN15eWm40Z0InakxeL3MjKlE4dGtBRHMjMUduKCNaVzxIVERKQDNCcC9PJHNrTjFmWW1MSjZjQz5iP1MxYVgzOy41R2NxZj5WRXFDX147P3AvKGxpSFpMKVVCOF9DMDc8ZyRJRFtQJz5ubEZrIVxPIU8uQl5da0hyaGZrLUxcRFI5TDUvLy9yKjBkZFYqYEAlUGNJaWZgMExubCZCMFhVYFMySEBqQ1BCUzI3X2VCUkVMKEdtYG10XzVCOTAnZDgiV2kxZHFbMS5FYVI5W101W1liT19aQUs5Y0NqRV1OPSJWXEBcaCE1MElIJGE1bXJWNEBaQyhOUyViNSUyIilpSSxjWiprMy9nZklEKV9QaUQ7a2ZAQVZnIkBfS1olJDlaTFBvbjtiMUVuTi5pPD0xJmZoPy5ZL15FTUJeTTwyKGRWXkNdcHBsQWlxKCs1cyJwQ2pZTl1IUGsvZmhwbFthdXA9dEs/IUFqY0I0KGNoYD8nJl0+JT9uUmR0OCpFNVs1bm5SOTQ1VzxuL1Q5SzpDTmlXaT1nciUhP2g8NENKWj40JF1hMjopQjVhXWs1Nm01NVNOKS0sLChDOm08MEZDZnVbOm1yNVxwalpOJ2hkcmZNXUFuX3IwUTJqQkUrQ1IxaGlPJTsrZ2ZSSVdAM0o6PnBnaEAxOGUsYic/YTlBMDtnbztuWUZWSWojUlVgSFM/LEVEbEhORGFlTy1dNio6b0EnaS1kTyhWMjJVU20qOUtoVGZUUEFKRkldRDJER3BmNThpRjQtb2VtKUpWYyhUMSlZdFZjcV9RTHMuVz5RUjJuOTRHSyhucmgqJV9IbCFBMVVKQ3FLJkVhS1ojQzoxcHBDLy5zTWwvZXEkYCFrTl5KQXNZTWI1T2hpc1pTQ0MsLmYxIl5OSjxnVT4nTEYqMGgiW1ZYP0BLZ0BwXk1SbkFiYmM1dCdcPGM8RlkkSl84JjlkczJJQUVuTlsoMGRFXVhRV2FbYmBSUE1iXyJRQWtJS1YlR0QqTW5GXHJjUEZsciE+aiNlKTYmTUpMPzZUamhsbTNpPi8wK3A1RWNuazRDVU9OQCgpLjUhVjRORStSRFMxREExaTJLWFpJPnRdVnQ9JStva0UxcTZCdUxgIltXN0FdUkgnKCVpNDRVMm0sM3FhS0xkRm0jKzFOaSpJZz40LWEmPUZyUkdWQ2swWGhRLCdKIU9aYENbTWpYLE0yNjFUPmsuW21gZztKcEFVLlFzcSJVUVcoJDBPW0U9NmMlV1NpSEdUTWd0LUhtPkoiVXAmOmw/VzFeWl0pPEwmOSRMSjllNGBlWCg+NCM/PSItIjolZTRaWCo9RTc5aTozNTpVQCQ3NFNtKDE0NWRfcFFfTG45ZkROaC1OKnNWXFBuWyRfIlpPZDExPDpXSENwSmRzUlFnTWFWImgvS2lEVSJyM0JwLmpLVVR1T1ZaPj4uSCpmXiVITSVRSUlZSCpaSjNETDM+NW8oOm9hcFFkWVdhYSlxQSNZWlgkPzI3OCNsLDF0OHQmOyguXmgkNi8yRVs2RWAlXzJDOmglPj0/Mz1WUjkvckw7OkpPMCdfIVpsVUdddTlnQyNBZUAwJUUiUlszLXNlST89V2kwU0puZyxNTG5ENkZDJTBsRTohSl1JZjNOI1dJcEssJWdecnVaVidwRS9BNWUjUVM3TVdwdThMZzk4WD1SJF04cG02ITI0UjstSkRjMURuQ3BCb2M9QXA6dT1iOi5vKmRUPW5XUEdGQ2wvOlA2TUZMJDMzcjZIaDRfMGhPNzRaclVSLFRoLy5CLi4iWTQlamZbWSg9SWgwL1BWaks5XzE/V3I9JkFZLk4jQ1RNVHJRYUZddE5gTmluVGk+c0FSOD5jbUQoLCRJNz90KCc/QHFGRkxqNllhQTk5LDBabU1ZYnMpaz9RTFopRDs5Ikgxb0wkSCk5T05YWypbIU9ZSTJNdVI2NTo9OzoyZDpBXEQ8a2dfRXFkOFVkc1BAPiR1NEtnX1RHTCdiP2JkW1M2JCZtVCYyNUFDal5NU1VSam83bmI1QE8iNDgpQGpYZlRZNThJLCxkIV0xX0Q6UDxVXXInVStYS0FGK2Y+X0tcYSdFMUJdOlF1P29JVyxDMjFiSydvMHVGQGs2YSJUNyMzITFjPTNAPF4yLDQ3YW87QkVMPj41fj5lbmRzdHJlYW0KZW5kb2JqCnhyZWYKMCAxMwowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAwNjEgMDAwMDAgbiAKMDAwMDAwMDEyMiAwMDAwMCBuIAowMDAwMDAwMjI5IDAwMDAwIG4gCjAwMDAwMDAzNDEgMDAwMDAgbiAKMDAwMDAwMDYwNCAwMDAwMCBuIAowMDAwMDAwNjg3IDAwMDAwIG4gCjAwMDAwMDA4MDIgMDAwMDAgbiAKMDAwMDAwMTAwNyAwMDAwMCBuIAowMDAwMDAxMDc2IDAwMDAwIG4gCjAwMDAwMDEzNTMgMDAwMDAgbiAKMDAwMDAwMTQxOSAwMDAwMCBuIAowMDAwMDA1NDIyIDAwMDAwIG4gCnRyYWlsZXIKPDwKL0lEIApbPDJkZWI0YmY4M2FiMDBhODI2NzczZGVjMTMzOGE0ZGI2PjwyZGViNGJmODNhYjAwYTgyNjc3M2RlYzEzMzhhNGRiNj5dCiUgUmVwb3J0TGFiIGdlbmVyYXRlZCBQREYgZG9jdW1lbnQgLS0gZGlnZXN0IChvcGVuc291cmNlKQoKL0luZm8gOSAwIFIKL1Jvb3QgOCAwIFIKL1NpemUgMTMKPj4Kc3RhcnR4cmVmCjgyMzAKJSVFT0YK';</script>
+<script>
+const DOWNLOAD_FILE_NAME='Paysys Labs - Email Action Agent.pdf';
+const FREE=['gmail.com','yahoo.com','hotmail.com','outlook.com','live.com','icloud.com','me.com','aol.com','protonmail.com','proton.me','yandex.com','mail.com','gmx.com','googlemail.com','msn.com'];
+function b64ToBlob(base64,contentType){
+  const byteCharacters=atob(base64);
+  const byteArrays=[];
+  const sliceSize=1024;
+  for(let offset=0;offset<byteCharacters.length;offset+=sliceSize){
+    const slice=byteCharacters.slice(offset,offset+sliceSize);
+    const byteNumbers=new Array(slice.length);
+    for(let i=0;i<slice.length;i++){byteNumbers[i]=slice.charCodeAt(i);}
+    byteArrays.push(new Uint8Array(byteNumbers));
+  }
+  return new Blob(byteArrays,{type:contentType});
+}
+function doDownload(){
+  const blob=b64ToBlob(PDF_B64,'application/pdf');
+  const url=URL.createObjectURL(blob);
+  const link=document.createElement('a');
+  link.href=url;
+  link.download=DOWNLOAD_FILE_NAME;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+  firePocDownloadEvent(POC_ID);
+}
+function isFree(e){return FREE.includes((e.split('@')[1]||'').toLowerCase());}
+function isEmail(e){return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e.trim());}
+function isPhone(p){return /^[\d\s\-\(\)]{6,15}$/.test(p.trim());}
+function hint(id,t,m){const i=document.getElementById('f-'+id),e=document.getElementById('h-'+id);if(!i||!e)return;i.classList.remove('err','ok');if(t==='e'){i.classList.add('err');e.className='hint e';e.innerHTML='<i class="ti ti-alert-circle" style="font-size:12px"></i> '+m;}else if(t==='s'){i.classList.add('ok');e.className='hint s';e.innerHTML='<i class="ti ti-circle-check" style="font-size:12px"></i> '+m;}else{e.className='hint';e.innerHTML='';}}
+function showErr(m){const b=document.getElementById('errBanner');if(b){document.getElementById('errMsg').textContent=m;b.style.display='flex';}}
+function hideErr(){const b=document.getElementById('errBanner');if(b)b.style.display='none';}
+document.addEventListener('DOMContentLoaded',function(){
+  const deckBtn=document.getElementById('downloadDeckBtn');
+  if(deckBtn){
+    deckBtn.addEventListener('click',function(e){
+      e.preventDefault();
+      doDownload();
+    });
+  }
+  const brochureBtn=document.getElementById('brochureBtn');
+  if(brochureBtn){
+    brochureBtn.addEventListener('click',function(){
+      doDownload();
+    });
+  }
+  document.getElementById('f-name').addEventListener('blur',function(){this.value.trim()?hint('name','s',''):hint('name','e','Required');});
+  document.getElementById('f-email').addEventListener('blur',function(){const v=this.value.trim();if(!v)return hint('email','e','Work email is required');if(!isEmail(v))return hint('email','e','Please enter a valid email address');if(isFree(v))return hint('email','e','Please use your work email — not Gmail or similar');hint('email','s','Work email confirmed');});
+  document.getElementById('f-phone').addEventListener('blur',function(){const v=this.value.trim();if(!v)return hint('phone','e','Phone number is required');if(!isPhone(v))return hint('phone','e','Please enter a valid phone number');hint('phone','s','');});
+  document.getElementById('pocForm').addEventListener('submit',async function(e){
+    e.preventDefault();hideErr();
+    const n=document.getElementById('f-name').value.trim(),em=document.getElementById('f-email').value.trim(),ph=document.getElementById('f-phone').value.trim();
+    let ok=true;
+    if(!n){hint('name','e','Required');ok=false;}
+    if(!em){hint('email','e','Business email is required');ok=false;}else if(!isEmail(em)){hint('email','e','Please enter a valid email address');ok=false;}else if(isFree(em)){hint('email','e','Please use your business email — not Gmail or similar');ok=false;}
+    if(!ph){hint('phone','e','Required');ok=false;}else if(!isPhone(ph)){hint('phone','e','Please enter a valid phone number');ok=false;}
+    if(!ok)return;
+    const btn=document.getElementById('submitBtn');
+    btn.disabled=true;
+        btn.innerHTML='<i class="ti ti-loader-2"></i> Sending…';
+    try{
+      const formData=new FormData(this);
+      const response=await fetch('https://formspree.io/f/xbdejwbg',{method:'POST',body:formData,headers:{'Accept':'application/json'}});
+      if(response.ok){
+        btn.innerHTML='Submitted';
+        setTimeout(()=>{btn.disabled=false;},2000);
+      }else{
+        btn.disabled=false;
+        btn.innerHTML='Submit';
+        showErr('Something went wrong — please email ai@paysyslabs.com.');
+      }
+    }catch(err){
+      btn.disabled=false;
+      btn.innerHTML='Submit';
+      showErr('Something went wrong — please email ai@paysyslabs.com.');
+    }
+  });
+});
+</script>
+
+</div>
+<footer><p>© 2026 PaysysLabs · paysyslabs.com · ai@paysyslabs.com</p><div class="footer-links"><a href="#">Privacy</a><a href="#">Contact</a></div></footer>
+<script>
+// UTM Parameter Capture — stores source, medium, campaign for lead enrichment
+(function() {
+  var params = new URLSearchParams(window.location.search);
+  var utms = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
+  utms.forEach(function(k) {
+    var v = params.get(k);
+    if (v) sessionStorage.setItem(k, v);
+  });
+})();
+// GA4 POC Download Event — fires on successful lead capture
+function firePocDownloadEvent(pocName) {
+  if (typeof gtag === 'function') {
+    gtag('event', 'poc_download', {
+      event_category: 'lead_capture',
+      event_label: pocName,
+      value: 50,
+      currency: 'AUD'
+    });
+  }
+  // LinkedIn conversion event
+  if (typeof window.lintrk === 'function') {
+    window.lintrk('track', { conversion_id: 'XXXXXXX' });
+  }
+}
+</script>
+</body></html>

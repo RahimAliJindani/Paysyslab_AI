@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Work Tools for Australian Business | PaysysLabs</title>
+<meta name="description" content="Four AI tools that handle the admin your team hates — so they can focus on the work that matters. Built for Australian businesses.">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --navy:#0D2240;--navy-mid:#1A3A5C;--navy-light:#1E4976;
+  --gold:#C8922A;--gold-light:#E8B84B;--gold-pale:#FDF3E0;
+  --off-white:#F7F9FC;--border:#E2E8F0;--text:#1A2840;
+  --muted:#64748B;--muted-on-navy:#8BAFD4;--white:#ffffff;
+  --green:#1A7F4B;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--off-white);color:var(--text);line-height:1.6;}
+
+/* NAV */
+.topnav{background:var(--navy);display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:56px;position:sticky;top:0;z-index:100;border-bottom:0.5px solid rgba(255,255,255,0.08);}
+.topnav-logo{display:flex;align-items:center;gap:10px;}
+.topnav-logo img{height:32px;}
+.logo-mark{width:32px;height:32px;background:var(--gold);border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:15px;color:var(--navy);font-weight:700;}
+.topnav-logotype{font-family:'DM Serif Display',serif;font-size:17px;color:#fff;letter-spacing:0.3px;}
+.topnav-logotype span{color:var(--gold-light);}
+.topnav-pill{background:rgba(200,146,42,0.18);border:0.5px solid var(--gold);color:var(--gold-light);font-size:10px;font-weight:600;padding:2px 10px;border-radius:20px;letter-spacing:0.8px;text-transform:uppercase;}
+.topnav-links{display:flex;align-items:center;gap:24px;}
+.topnav-links a{color:var(--muted-on-navy);font-size:13px;text-decoration:none;transition:color 0.2s;}
+.topnav-links a:hover{color:#fff;}
+.topnav-cta{background:var(--gold);color:#fff;font-size:13px;font-weight:600;padding:8px 20px;border-radius:7px;border:none;cursor:pointer;transition:background 0.2s;text-decoration:none;}
+.topnav-cta:hover{background:var(--gold-light);}
+
+/* HERO */
+.hero{background:var(--navy);padding:72px 40px 56px;position:relative;overflow:hidden;}
+.hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;}
+.hero-glow{position:absolute;top:-120px;right:-80px;width:500px;height:500px;background:radial-gradient(circle,rgba(200,146,42,0.08) 0%,transparent 70%);pointer-events:none;}
+.hero-inner{max-width:1100px;margin:0 auto;position:relative;z-index:1;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:7px;background:rgba(200,146,42,0.15);border:0.5px solid rgba(200,146,42,0.4);color:var(--gold-light);font-size:11px;font-weight:500;padding:5px 14px;border-radius:20px;margin-bottom:24px;letter-spacing:0.5px;}
+.hero-headline-wrap{min-height:120px;margin-bottom:18px;}
+.hero-slide{display:none;animation:hSlide 0.6s ease forwards;}
+.hero-slide.active{display:block;}
+@keyframes hSlide{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+.hero-h1{font-family:'DM Serif Display',serif;font-size:46px;line-height:1.1;color:#fff;max-width:740px;}
+.hero-h1 em{font-style:italic;color:var(--gold-light);}
+.hero-sub-wrap{min-height:52px;margin-bottom:32px;}
+.hero-sub-slide{display:none;}
+.hero-sub-slide.active{display:block;animation:hSlide 0.6s ease 0.1s forwards;opacity:0;}
+.hero-sub{font-size:16px;color:var(--muted-on-navy);max-width:580px;line-height:1.75;}
+.hero-dots{display:flex;align-items:center;gap:8px;margin-bottom:32px;}
+.h-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.2);cursor:pointer;transition:all 0.3s;border:none;padding:0;}
+.h-dot.active{background:var(--gold);width:24px;border-radius:4px;}
+.hero-actions{display:flex;align-items:center;gap:14px;margin-bottom:44px;flex-wrap:wrap;}
+.btn-gold{background:var(--gold);color:var(--navy);font-size:14px;font-weight:600;padding:13px 26px;border-radius:8px;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:background 0.2s;text-decoration:none;}
+.btn-gold:hover{background:var(--gold-light);}
+.btn-outline{background:transparent;color:#fff;font-size:14px;font-weight:400;padding:13px 24px;border-radius:8px;border:0.5px solid rgba(255,255,255,0.25);cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:all 0.2s;text-decoration:none;}
+.btn-outline:hover{background:rgba(255,255,255,0.06);}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,0.08);border-radius:12px;overflow:hidden;border:0.5px solid rgba(255,255,255,0.1);}
+.hero-stat{background:rgba(255,255,255,0.04);padding:18px 22px;}
+.hero-stat .hval{font-size:24px;font-weight:600;color:#fff;font-family:'DM Serif Display',serif;}
+.hero-stat .hlbl{font-size:11px;color:var(--muted-on-navy);margin-top:3px;}
+
+/* TRUST BAR */
+.trust-bar{background:#fff;border-bottom:0.5px solid var(--border);padding:18px 40px;}
+.trust-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:32px;flex-wrap:wrap;}
+.trust-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.8px;white-space:nowrap;}
+.trust-item{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted);}
+.trust-item i{color:var(--green);font-size:14px;}
+
+/* PROBLEM */
+.prob-section{max-width:1100px;margin:0 auto;padding:56px 40px 32px;}
+.section-label{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.section-label span{font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:var(--gold);font-weight:600;white-space:nowrap;}
+.section-label::after{content:'';flex:1;height:0.5px;background:var(--border);}
+.section-h2{font-family:'DM Serif Display',serif;font-size:32px;color:var(--navy);margin-bottom:8px;}
+.section-h2 em{font-style:italic;color:var(--navy-light);}
+.section-sub{font-size:15px;color:var(--muted);margin-bottom:32px;line-height:1.7;max-width:580px;}
+.prob-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+.prob-card{background:#fff;border:0.5px solid var(--border);border-radius:12px;padding:24px 20px;border-top:3px solid var(--gold);}
+.prob-icon{font-size:24px;color:var(--gold);margin-bottom:12px;}
+.prob-stat{font-family:'DM Serif Display',serif;font-size:26px;color:var(--navy);margin-bottom:4px;}
+.prob-card p{font-size:13px;color:var(--muted);line-height:1.6;}
+
+/* DEMOS HUB */
+.demos-section{max-width:1100px;margin:0 auto;padding:48px 40px;}
+.demo-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:28px;}
+.demo-card{background:#fff;border:0.5px solid var(--border);border-radius:16px;padding:28px 30px;border-top:3px solid var(--gold);transition:box-shadow 0.2s,transform 0.2s;text-decoration:none;display:block;}
+.demo-card:hover{box-shadow:0 8px 32px rgba(0,0,0,0.1);transform:translateY(-2px);}
+.demo-icon-row{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.demo-icon{width:40px;height:40px;border-radius:10px;background:var(--gold-pale);border:0.5px solid rgba(200,146,42,0.2);display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--gold);}
+.demo-tag{font-size:10px;text-transform:uppercase;letter-spacing:0.8px;color:var(--gold);font-weight:600;}
+.demo-card h3{font-family:'DM Serif Display',serif;font-size:22px;color:var(--navy);margin-bottom:8px;}
+.demo-card p{font-size:13.5px;color:var(--muted);line-height:1.65;margin-bottom:16px;}
+.demo-before-after{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;}
+.ba-box{border-radius:8px;padding:10px 12px;}
+.ba-before{background:#FEF2F2;border:0.5px solid #FECACA;}
+.ba-after{background:#F0FDF4;border:0.5px solid #BBF7D0;}
+.ba-label{font-size:9px;text-transform:uppercase;letter-spacing:0.7px;font-weight:600;margin-bottom:3px;}
+.ba-before .ba-label{color:#DC2626;}
+.ba-after .ba-label{color:var(--green);}
+.ba-box p{font-size:12px;line-height:1.5;}
+.ba-before p{color:#7F1D1D;}
+.ba-after p{color:#14532D;}
+.demo-link{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--gold);}
+
+/* USE CASE TABS */
+.capabilities{background:#fff;border-top:0.5px solid var(--border);border-bottom:0.5px solid var(--border);padding:52px 40px;}
+.cap-inner{max-width:1100px;margin:0 auto;}
+.layout-split{display:flex;gap:24px;align-items:flex-start;}
+.sidebar{flex:0 0 210px;}
+.main-area{flex:1;min-width:0;}
+.tab-sidebar-wrap{background:var(--off-white);border:0.5px solid var(--border);border-radius:12px;padding:14px 0;}
+.nav-group-label{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);font-weight:500;padding:0 0 6px 16px;margin-top:16px;}
+.nav-group-label:first-child{margin-top:0;}
+.ai-tab{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:none;border-left:3px solid transparent;padding:10px 14px;font-size:12.5px;font-weight:400;color:var(--muted);cursor:pointer;transition:all 0.18s;font-family:'DM Sans',sans-serif;border-radius:0;}
+.ai-tab:hover{background:#F0F4F8;color:var(--text);}
+.ai-tab.active{border-left-color:var(--gold);background:var(--gold-pale);color:var(--navy);font-weight:500;}
+.ai-tab i{font-size:15px;flex-shrink:0;}
+.panel{display:none;}
+.panel.active{display:block;animation:pFade 0.25s ease;}
+@keyframes pFade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+.panel-head{background:var(--navy);border-radius:12px;padding:28px 30px;margin-bottom:14px;}
+.panel-tag{display:inline-block;font-size:10px;text-transform:uppercase;letter-spacing:0.8px;color:var(--gold-light);background:rgba(200,146,42,0.15);border:0.5px solid rgba(200,146,42,0.3);padding:3px 11px;border-radius:20px;margin-bottom:10px;font-weight:500;}
+.panel-head h2{font-family:'DM Serif Display',serif;font-size:22px;color:#fff;margin-bottom:8px;}
+.panel-head p{font-size:13px;color:var(--muted-on-navy);line-height:1.7;}
+.panel-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;}
+.p-metric{background:var(--off-white);border:0.5px solid var(--border);border-radius:10px;padding:14px 16px;}
+.p-metric .mv{font-size:22px;font-weight:600;color:var(--navy);font-family:'DM Serif Display',serif;}
+.p-metric .ml{font-size:11px;color:var(--muted);margin-top:2px;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
+.info-card{background:#fff;border:0.5px solid var(--border);border-radius:12px;padding:16px 18px;}
+.info-card h3{font-size:12px;font-weight:600;color:var(--navy);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.info-card h3 i{color:var(--gold);font-size:15px;}
+.info-card p{font-size:12.5px;color:var(--muted);line-height:1.65;}
+.ind-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+.ind-tag{font-size:10px;background:#E6F1FB;color:#0C447C;padding:3px 9px;border-radius:20px;font-weight:500;}
+
+/* HOW IT WORKS */
+.how-section{max-width:1100px;margin:0 auto;padding:52px 40px;}
+.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:28px;}
+.how-card{background:#fff;border:0.5px solid var(--border);border-radius:14px;padding:28px 24px;}
+.how-num{font-family:'DM Serif Display',serif;font-size:36px;color:var(--gold);opacity:0.4;margin-bottom:8px;}
+.how-card h3{font-size:16px;font-weight:600;color:var(--navy);margin-bottom:8px;}
+.how-card p{font-size:13.5px;color:var(--muted);line-height:1.65;}
+.how-tools{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px;}
+.how-tool{font-size:11px;background:var(--off-white);border:0.5px solid var(--border);padding:3px 10px;border-radius:12px;color:var(--text);}
+
+/* TESTIMONIALS */
+.testis{background:var(--navy);padding:52px 40px;}
+.testis-inner{max-width:1100px;margin:0 auto;}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px;}
+.testi{background:rgba(255,255,255,0.06);border:0.5px solid rgba(255,255,255,0.1);border-radius:14px;padding:24px 22px;}
+.testi-stars{color:var(--gold-light);font-size:13px;margin-bottom:12px;letter-spacing:2px;}
+.testi blockquote{font-size:14px;color:rgba(255,255,255,0.85);line-height:1.7;font-style:italic;margin-bottom:14px;}
+.testi-author{font-size:12px;color:var(--muted-on-navy);}
+.testi-author strong{color:#fff;display:block;margin-bottom:2px;}
+
+/* CTA */
+.cta-section{max-width:1100px;margin:0 auto;padding:52px 40px;}
+.cta-strip{background:var(--gold);border-radius:16px;padding:44px 48px;display:flex;align-items:center;justify-content:space-between;gap:32px;}
+.cta-strip h2{font-family:'DM Serif Display',serif;font-size:28px;color:var(--navy);margin-bottom:8px;}
+.cta-strip p{font-size:14px;color:rgba(13,34,64,0.75);line-height:1.6;max-width:440px;}
+.cta-btns{display:flex;gap:12px;flex-shrink:0;flex-wrap:wrap;}
+.btn-navy{background:var(--navy);color:#fff;font-size:14px;font-weight:600;padding:13px 26px;border-radius:8px;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:7px;text-decoration:none;transition:background 0.2s;}
+.btn-navy:hover{background:var(--navy-mid);}
+.btn-navy-outline{background:transparent;color:var(--navy);font-size:14px;padding:13px 22px;border-radius:8px;border:1.5px solid var(--navy);cursor:pointer;display:inline-flex;align-items:center;gap:7px;text-decoration:none;font-weight:500;}
+
+/* FOOTER */
+footer{background:var(--navy);padding:24px 40px;display:flex;align-items:center;justify-content:space-between;border-top:0.5px solid rgba(255,255,255,0.08);flex-wrap:wrap;gap:12px;}
+footer p{font-size:12px;color:var(--muted-on-navy);}
+.footer-links{display:flex;gap:20px;}
+.footer-links a{font-size:12px;color:var(--muted-on-navy);text-decoration:none;}
+.footer-links a:hover{color:#fff;}
+
+@media(max-width:900px){
+  .topnav-links{display:none;}
+  .hero{padding:44px 20px 36px;}
+  .hero-stats{grid-template-columns:repeat(2,1fr);}
+  .hero-h1{font-size:34px;}
+  .prob-grid{grid-template-columns:repeat(2,1fr);}
+  .demo-grid{grid-template-columns:1fr;}
+  .layout-split{flex-direction:column;}
+  .sidebar{flex:auto;width:100%;}
+  .two-col{grid-template-columns:1fr;}
+  .how-grid{grid-template-columns:1fr;}
+  .testi-grid{grid-template-columns:1fr;}
+  .cta-strip{flex-direction:column;}
+  .trust-bar,.prob-section,.demos-section,.how-section,.cta-section{padding-left:20px;padding-right:20px;}
+  .capabilities,.testis{padding-left:20px;padding-right:20px;}
+  footer{padding:20px;}
+  .topnav{padding:0 20px;}
+  .demo-before-after{grid-template-columns:1fr;}
+}
+</style>
+<!-- GA4 — PaysysLabs AI Demos -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-XXXXXXXXXX', { 'anonymize_ip': true });
+// Replace G-XXXXXXXXXX with your GA4 Measurement ID
+</script>
+<!-- LinkedIn Insight Tag — ANZ Retargeting -->
+<script type="text/javascript">
+_linkedin_partner_id = "XXXXXXX"; // Replace with your LinkedIn Partner ID
+window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
+window._linkedin_data_partner_ids.push(_linkedin_partner_id);
+(function(l) {
+if (!l){window.lintrk = function(a,b){window.lintrk.q.push([a,b])};
+window.lintrk.q=[]}
+var s = document.getElementsByTagName("script")[0];
+var b = document.createElement("script");
+b.type = "text/javascript";b.async = true;
+b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
+s.parentNode.insertBefore(b, s);})(window.lintrk);
+</script>
+<noscript><img height="1" width="1" style="display:none;" alt="" src="https://px.ads.linkedin.com/collect/?pid=XXXXXXX&fmt=gif" /></noscript>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="topnav-logo">
+    <img src="Paysys_Logo_White.png" alt="Paysys Labs Logo" style="height:32px;">
+  </div>
+  <div class="topnav-links">
+    <a href="#demos">All Tools</a>
+    <a href="https://www.paysyslabs.com">Paysys Labs</a>
+    <button class="topnav-cta" onclick="document.getElementById('bookdemo').scrollIntoView({behavior:'smooth'});" style="border:none;cursor:pointer;font-family:'DM Sans',sans-serif;">Book a Demo</button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow" style="display:none;"><i class="ti ti-brain"></i> AI tools for Australian businesses</div>
+    <div class="hero-headline-wrap">
+      <div class="hero-slide active" id="hs-0">
+        <h1 class="hero-h1">Your team spends hours on admin every week. <em>We get rid of that.</em></h1>
+      </div>
+      <div class="hero-slide" id="hs-1">
+        <h1 class="hero-h1">Ask your business data anything — <em>plain English, live answers.</em></h1>
+      </div>
+      <div class="hero-slide" id="hs-2">
+        <h1 class="hero-h1">Reports written in seconds, <em>not days.</em></h1>
+      </div>
+      <div class="hero-slide" id="hs-3">
+        <h1 class="hero-h1">Your inbox sorted. <em>Only what matters, sent straight to Slack.</em></h1>
+      </div>
+      <div class="hero-slide" id="hs-4">
+        <h1 class="hero-h1">Book meetings by <em>texting WhatsApp.</em> Conflict-checked every time.</h1>
+      </div>
+    </div>
+    <div class="hero-sub-wrap">
+      <div class="hero-sub-slide active" id="hss-0">
+        <p class="hero-sub">Four working AI tools that handle the repetitive work your team puts up with every day. No lock-in. No tech team required. Most businesses are running their first automation in under a day.</p>
+      </div>
+      <div class="hero-sub-slide" id="hss-1">
+        <p class="hero-sub">Talk2Data turns plain-English questions into live answers from your actual data — no SQL, no waiting on IT, no spreadsheets. In under 3 seconds.</p>
+      </div>
+      <div class="hero-sub-slide" id="hss-2">
+        <p class="hero-sub">Upload any document. The AI reads it, extracts what matters, and writes a complete expert report — ready to present, in about 4 seconds.</p>
+      </div>
+      <div class="hero-sub-slide" id="hss-3">
+        <p class="hero-sub">An AI agent watches your Microsoft 365 inbox and posts only the emails that need action to Slack — three times a day. Nothing slips through.</p>
+      </div>
+      <div class="hero-sub-slide" id="hss-4">
+        <p class="hero-sub">Text the bot to book, move, or cancel Outlook meetings from WhatsApp. It checks for clashes, creates the invite, and confirms back — under 30 seconds.</p>
+      </div>
+    </div>
+    <div class="hero-dots" id="heroDots">
+      <button class="h-dot active" onclick="goSlide(0)"></button>
+      <button class="h-dot" onclick="goSlide(1)"></button>
+      <button class="h-dot" onclick="goSlide(2)"></button>
+      <button class="h-dot" onclick="goSlide(3)"></button>
+      <button class="h-dot" onclick="goSlide(4)"></button>
+    </div>
+    <div class="hero-actions">
+      <a href="#demos" class="btn-gold"><i class="ti ti-layout-grid"></i> See the four tools</a>
+      <button class="btn-outline" onclick="document.getElementById('bookdemo').scrollIntoView({behavior:'smooth'});" style="background:#fff;color:#000;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:400;padding:13px 24px;border-radius:8px;display:inline-flex;align-items:center;gap:7px;transition:all 0.2s;text-decoration:none;"><i class="ti ti-calendar"></i> Book a free demo</button>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="hval">4</div><div class="hlbl">Working AI tools, live today</div></div>
+      <div class="hero-stat"><div class="hval">~1 day</div><div class="hlbl">To your first automation</div></div>
+      <div class="hero-stat"><div class="hval">No lock-in</div><div class="hlbl">Cancel any time</div></div>
+      <div class="hero-stat"><div class="hval">AU-based</div><div class="hlbl">Support in AEST hours</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="trust-bar">
+  <div class="trust-inner">
+    <span class="trust-label">Works with your existing tools just like the rest</span>
+    <div class="trust-item"><i class="ti ti-circle-check"></i> Microsoft 365 & Outlook</div>
+    <div class="trust-item"><i class="ti ti-circle-check"></i> Slack</div>
+    <div class="trust-item"><i class="ti ti-circle-check"></i> WhatsApp</div>
+    <div class="trust-item"><i class="ti ti-circle-check"></i> Any business database</div>
+    <div class="trust-item"><i class="ti ti-circle-check"></i> Xero & MYOB-ready</div>
+    <div class="trust-item"><i class="ti ti-circle-check"></i> Privacy Act compliant</div>
+  </div>
+</div>
+
+<div class="prob-section">
+  <div class="section-label"><span>The costly reality</span></div>
+  <h2 class="section-h2">Your team is doing work <em>a machine should be doing.</em></h2>
+  <p class="section-sub">Every hour spent on avoidable admin is an hour not spent on the work that actually grows your business.</p>
+  <div class="prob-grid">
+    <div class="prob-card">
+      <div class="prob-icon"><i class="ti ti-clock"></i></div>
+      <div class="prob-stat">6–10 hrs</div>
+      <p>Lost per person, per week, to manual data entry, report prep, and inbox triage.</p>
+    </div>
+    <div class="prob-card">
+      <div class="prob-icon"><i class="ti ti-alert-triangle"></i></div>
+      <div class="prob-stat">1 in 5</div>
+      <p>Manual processes has a human error that costs time to find and fix — often on a Friday afternoon.</p>
+    </div>
+    <div class="prob-card">
+      <div class="prob-icon"><i class="ti ti-trending-up"></i></div>
+      <div class="prob-stat">Growing</div>
+      <p>Hiring more people to handle admin isn't sustainable. Labour costs are rising. The work keeps piling up.</p>
+    </div>
+    <div class="prob-card">
+      <div class="prob-icon"><i class="ti ti-user-check"></i></div>
+      <div class="prob-stat">Your best</div>
+      <p>People are doing work that doesn't need their judgment. That's the most expensive inefficiency in any business.</p>
+    </div>
+  </div>
+</div>
+
+<div class="demos-section" id="demos">
+  <div class="section-label"><span>Live demos</span></div>
+  <h2 class="section-h2">Four real tools. <em>Working right now.</em></h2>
+  <p class="section-sub">Each one solves a daily problem for Australian businesses. Click in, see how it works, and download the plain-English guide — free, no sales pitch.</p>
+  <div class="demo-grid">
+    <a href="talk2data-page.html" class="demo-card">
+      <div class="demo-icon-row">
+        <div class="demo-icon"><i class="ti ti-message-2-code"></i></div>
+        <span class="demo-tag">Data & Reporting</span>
+      </div>
+      <h3>Talk2Data</h3>
+      <p>Ask any business question in plain English. Get the live answer from your data in seconds — no IT request, no spreadsheet, no waiting.</p>
+      <div class="demo-before-after">
+        <div class="ba-box ba-before"><div class="ba-label">Before</div><p>Submit a ticket and wait 2 days for a report that might not answer your question.</p></div>
+        <div class="ba-box ba-after"><div class="ba-label">After</div><p>Type "how did Sydney do this month?" and get the answer in under 3 seconds.</p></div>
+      </div>
+      <div class="demo-link">Explore Our Page <i class="ti ti-arrow-right"></i></div>
+    </a>
+    <a href="calendar-agent-page.html" class="demo-card">
+      <div class="demo-icon-row">
+        <div class="demo-icon"><i class="ti ti-calendar-event"></i></div>
+        <span class="demo-tag">Calendar Management</span>
+      </div>
+      <h3>Calendar Assistant</h3>
+      <p>Book, reschedule, and cancel Outlook meetings by texting a WhatsApp bot. Conflict-checked every time. No app switching, no double-bookings.</p>
+      <div class="demo-before-after">
+        <div class="ba-box ba-before"><div class="ba-label">Before</div><p>Switch between WhatsApp and Outlook, manually check your calendar, risk double-bookings.</p></div>
+        <div class="ba-box ba-after"><div class="ba-label">After</div><p>Text "book Tuesday 2pm with Alex" and it's done — confirmed, in your Outlook, under 30 seconds.</p></div>
+      </div>
+      <div class="demo-link">Explore Our Page <i class="ti ti-arrow-right"></i></div>
+    </a>
+    <a href="mailbox-agent-page.html" class="demo-card">
+      <div class="demo-icon-row">
+        <div class="demo-icon"><i class="ti ti-mail-ai"></i></div>
+        <span class="demo-tag">Inbox Management</span>
+      </div>
+      <h3>Email Action Agent</h3>
+      <p>AI watches your Microsoft 365 inbox and posts only the emails that need your action straight to Slack — three times a day. Nothing important gets buried again.</p>
+      <div class="demo-before-after">
+        <div class="ba-box ba-before"><div class="ba-label">Before</div><p>100+ emails a day. Critical approvals buried in newsletters. Things fall through the cracks.</p></div>
+        <div class="ba-box ba-after"><div class="ba-label">After</div><p>A clean Slack digest of only the items that need you — 9am, midday, 5pm.</p></div>
+      </div>
+      <div class="demo-link">Explore Our Page <i class="ti ti-arrow-right"></i></div>
+    </a>
+    <a href="expert-report-page.html" class="demo-card">
+      <div class="demo-icon-row">
+        <div class="demo-icon"><i class="ti ti-file-analytics"></i></div>
+        <span class="demo-tag">Document Automation</span>
+      </div>
+      <h3>Expert Report Writing</h3>
+      <p>Upload any document — even a scanned PDF. AI reads it, extracts what matters, and writes a complete expert report ready to present. Done in under 4 seconds.</p>
+      <div class="demo-before-after">
+        <div class="ba-box ba-before"><div class="ba-label">Before</div><p>Analysts spend 2–3 hours writing standard reports from the same data every week.</p></div>
+        <div class="ba-box ba-after"><div class="ba-label">After</div><p>Upload the document. Get a formatted, professional report in 4 seconds. Review and send.</p></div>
+      </div>
+      <div class="demo-link">Explore Our Page <i class="ti ti-arrow-right"></i></div>
+    </a>
+  </div>
+</div>
+
+<div class="capabilities">
+  <div class="cap-inner">
+    <div class="section-label"><span>Under the hood</span></div>
+    <h2 class="section-h2">What each tool actually does</h2>
+    <p class="section-sub" style="margin-bottom:28px;">Click a tool on the left to see how it works — the problem it solves, the approach, and who it's built for.</p>
+    <div class="layout-split">
+      <aside class="sidebar">
+        <div class="tab-sidebar-wrap">
+          <div class="nav-group-label">Data</div>
+          <button class="ai-tab active" data-p="talk2data" onclick="sw(this)"><i class="ti ti-message-2-code"></i>Talk2Data</button>
+          <div class="nav-group-label">Documents</div>
+          <button class="ai-tab" data-p="report-writer" onclick="sw(this)"><i class="ti ti-file-analytics"></i>Expert Reports</button>
+          <div class="nav-group-label">Communications</div>
+          <button class="ai-tab" data-p="mailbox" onclick="sw(this)"><i class="ti ti-mail-ai"></i>Email Agent</button>
+          <button class="ai-tab" data-p="calendar" onclick="sw(this)"><i class="ti ti-calendar-event"></i>Calendar Agent</button>
+        </div>
+      </aside>
+      <main class="main-area">
+        <div id="talk2data" class="panel active">
+          <div class="panel-head">
+            <span class="panel-tag">Data & Reporting · Any industry</span>
+            <h2>Talk2Data — plain English questions, live answers</h2>
+            <p>Anyone in your organisation can query your live business data in plain English — no SQL, no IT ticket, no analyst needed. Works with any database. Answers return in under 3 seconds.</p>
+          </div>
+          <div class="panel-metrics">
+            <div class="p-metric"><div class="mv">87%</div><div class="ml">Query accuracy</div></div>
+            <div class="p-metric"><div class="mv">&lt;3 sec</div><div class="ml">Answer time</div></div>
+            <div class="p-metric"><div class="mv">Zero</div><div class="ml">SQL knowledge needed</div></div>
+          </div>
+          <div class="two-col">
+            <div class="info-card"><h3><i class="ti ti-alert-circle"></i>The problem</h3><p>Most businesses are sitting on a goldmine of data — but getting a simple answer requires an IT ticket, a 2-day wait, and a spreadsheet you have to interpret yourself.</p></div>
+            <div class="info-card"><h3><i class="ti ti-bulb"></i>The solution</h3><p>Type a question in plain English. The AI translates it, queries your live data, and returns a formatted answer — text, table, or chart, automatically.<div class="ind-tags"><span class="ind-tag">Retail</span><span class="ind-tag">Logistics</span><span class="ind-tag">Professional services</span><span class="ind-tag">Healthcare admin</span></div></p></div>
+          </div>
+        </div>
+        <div id="report-writer" class="panel">
+          <div class="panel-head">
+            <span class="panel-tag">Document Automation · Any industry</span>
+            <h2>Expert Report Writing — documents in seconds</h2>
+            <p>Upload any document — even a scanned PDF. The AI reads it, extracts the key information, and writes a complete structured report. Formatted, ready to review and send.</p>
+          </div>
+          <div class="panel-metrics">
+            <div class="p-metric"><div class="mv">−95%</div><div class="ml">Time to report</div></div>
+            <div class="p-metric"><div class="mv">4 sec</div><div class="ml">Generation time</div></div>
+            <div class="p-metric"><div class="mv">100%</div><div class="ml">Audit-ready output</div></div>
+          </div>
+          <div class="two-col">
+            <div class="info-card"><h3><i class="ti ti-alert-circle"></i>The problem</h3><p>Report writing is the highest-cost, lowest-judgment task in most organisations. Analysts spend 70% of their time formatting and compiling data they didn't create.</p></div>
+            <div class="info-card"><h3><i class="ti ti-bulb"></i>The solution</h3><p>Upload the source document. The AI extracts figures, applies your report structure, and produces a complete narrative — configurable for any audience or format.<div class="ind-tags"><span class="ind-tag">Accounting</span><span class="ind-tag">Legal</span><span class="ind-tag">Finance</span><span class="ind-tag">Consulting</span></div></p></div>
+          </div>
+        </div>
+        <div id="mailbox" class="panel">
+          <div class="panel-head">
+            <span class="panel-tag">Communications · Executives & Operations</span>
+            <h2>Email Action Agent — only what matters, to Slack</h2>
+            <p>An AI agent watches your Microsoft 365 inbox, classifies every email, and posts only the ones that need your action to Slack. Three digests a day. Nothing important slips through.</p>
+          </div>
+          <div class="panel-metrics">
+            <div class="p-metric"><div class="mv">M365</div><div class="ml">Inbox monitored</div></div>
+            <div class="p-metric"><div class="mv">Slack</div><div class="ml">Action items posted</div></div>
+            <div class="p-metric"><div class="mv">2 min</div><div class="ml">To set up with /setup</div></div>
+          </div>
+          <div class="two-col">
+            <div class="info-card"><h3><i class="ti ti-alert-circle"></i>The problem</h3><p>100+ emails a day. Approvals, escalations, and decisions get buried in newsletters and auto-replies. By the time they're seen, the moment has passed.</p></div>
+            <div class="info-card"><h3><i class="ti ti-bulb"></i>The solution</h3><p>AI reads, classifies, and filters your inbox — surfacing only the items that genuinely need your attention. Reply from Outlook and the task auto-closes.<div class="ind-tags"><span class="ind-tag">Any business with M365</span><span class="ind-tag">Operations</span><span class="ind-tag">Leadership teams</span></div></p></div>
+          </div>
+        </div>
+        <div id="calendar" class="panel">
+          <div class="panel-head">
+            <span class="panel-tag">Scheduling · Any role</span>
+            <h2>Calendar Agent — manage Outlook from WhatsApp</h2>
+            <p>Text the bot in plain English to book, move, or cancel Outlook meetings. It checks for clashes, creates the invite, and confirms back — without you opening your laptop.</p>
+          </div>
+          <div class="panel-metrics">
+            <div class="p-metric"><div class="mv">WhatsApp</div><div class="ml">Command channel</div></div>
+            <div class="p-metric"><div class="mv">Outlook</div><div class="ml">Live calendar sync</div></div>
+            <div class="p-metric"><div class="mv">&lt;30 sec</div><div class="ml">End to end</div></div>
+          </div>
+          <div class="two-col">
+            <div class="info-card"><h3><i class="ti ti-alert-circle"></i>The problem</h3><p>Executives live in WhatsApp but their calendar lives in Outlook. Every booking means switching apps, manually checking availability, risking double-bookings.</p></div>
+            <div class="info-card"><h3><i class="ti ti-bulb"></i>The solution</h3><p>Text the bot in plain English. It checks your calendar for clashes, creates the invite, and confirms — all in WhatsApp. One setup, connected forever.<div class="ind-tags"><span class="ind-tag">Any M365 user</span><span class="ind-tag">Field-based roles</span><span class="ind-tag">Remote teams</span></div></p></div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
+
+<div class="how-section" id="how">
+  <div class="section-label"><span>How it works</span></div>
+  <h2 class="section-h2">Up and running <em>in under a day.</em></h2>
+  <p class="section-sub">No IT team required. No ripping out your existing tools. Three steps and you're automating.</p>
+  <div class="how-grid">
+    <div class="how-card">
+      <div class="how-num">01</div>
+      <h3>Connect your tools</h3>
+      <p>Works with what you already use. Most connections take under 10 minutes. No replacement required — just plug in alongside your existing setup.</p>
+      <div class="how-tools">
+        <span class="how-tool">Microsoft 365</span>
+        <span class="how-tool">Outlook</span>
+        <span class="how-tool">Slack</span>
+        <span class="how-tool">WhatsApp</span>
+        <span class="how-tool">Xero</span>
+        <span class="how-tool">Any database</span>
+      </div>
+    </div>
+    <div class="how-card">
+      <div class="how-num">02</div>
+      <h3>Define your workflow</h3>
+      <p>Tell us what should happen — in plain English. No coding. No flowcharts. We handle the logic. You stay in control of every step.</p>
+      <div class="how-tools">
+        <span class="how-tool">Plain English setup</span>
+        <span class="how-tool">Human override always on</span>
+        <span class="how-tool">Configurable rules</span>
+      </div>
+    </div>
+    <div class="how-card">
+      <div class="how-num">03</div>
+      <h3>Watch it run</h3>
+      <p>Your processes run automatically. You get notified only when you need to act. Full audit log on everything. You can pause or adjust any time.</p>
+      <div class="how-tools">
+        <span class="how-tool">Full audit log</span>
+        <span class="how-tool">Real-time monitoring</span>
+        <span class="how-tool">AU data residency</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="testis">
+  <div class="testis-inner">
+    <div class="section-label"><span style="color:var(--gold-light);">What people say</span></div>
+    <h2 class="section-h2" style="color:#fff;">Results from businesses <em style="color:var(--gold-light);">just like yours.</em></h2>
+    <div class="testi-grid">
+      <div class="testi">
+        <div class="testi-stars">★★★★★</div>
+        <blockquote>"We used to spend half a Monday pulling weekly reports. Now it takes 4 minutes. The team actually has time to act on the data instead of just collecting it."</blockquote>
+        <div class="testi-author"><strong>Sarah T., Operations Manager</strong>Brisbane logistics firm · 45 staff</div>
+      </div>
+      <div class="testi">
+        <div class="testi-stars">★★★★★</div>
+        <blockquote>"The email agent alone saved me from missing two urgent client approvals in the first week. It filters the noise better than any PA I've had."</blockquote>
+        <div class="testi-author"><strong>James R., Managing Director</strong>Sydney accounting practice · 22 staff</div>
+      </div>
+      <div class="testi">
+        <div class="testi-stars">★★★★★</div>
+        <blockquote>"I was sceptical — our IT setup is old and messy. But it connected to our database in under an hour and the team started asking questions immediately. Genuinely useful."</blockquote>
+        <div class="testi-author"><strong>Priya M., Head of Operations</strong>Melbourne professional services · 60 staff</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cta-section" id="bookdemo">
+  <div class="cta-strip" style="background:#fff;flex-direction:column;text-align:left;align-items:flex-start;">
+    <h2 style="color:var(--navy);font-family:'DM Serif Display',serif;font-size:32px;margin-bottom:8px;width:100%;">Book a Demo</h2>
+    <p style="color:var(--muted);font-size:15px;line-height:1.7;max-width:580px;margin-bottom:32px;">Schedule a demo to explore how our solution can support your organization's objectives.</p>
+    <form id="bookdemoform" action="https://formspree.io/f/xbdejwbg" method="POST" style="width:100%;max-width:500px;">
+      <div style="margin-bottom:20px;">
+        <label style="display:block;font-size:13px;font-weight:600;color:var(--navy);margin-bottom:6px;">Name</label>
+        <input type="text" name="name" required style="width:100%;padding:10px 14px;border:0.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;box-sizing:border-box;">
+      </div>
+      <div style="margin-bottom:20px;">
+        <label style="display:block;font-size:13px;font-weight:600;color:var(--navy);margin-bottom:6px;">Email</label>
+        <input type="email" name="email" required style="width:100%;padding:10px 14px;border:0.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;box-sizing:border-box;">
+      </div>
+      <div style="margin-bottom:24px;">
+        <label style="display:block;font-size:13px;font-weight:600;color:var(--navy);margin-bottom:6px;">Phone number</label>
+        <input type="tel" name="phone" required style="width:100%;padding:10px 14px;border:0.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;box-sizing:border-box;">
+      </div>
+      <button type="submit" id="submitbtn" class="btn-gold" style="font-weight:600;">Submit</button>
+    </form>
+  </div>
+</div>
+
+<footer>
+  <p><a href="https://www.paysyslabs.com" style="color:var(--muted-on-navy);text-decoration:none;">&copy; 2026 PaysysLabs &middot; paysys labs</a> &middot; <a href="mailto:ai@paysyslabs.com" style="color:var(--muted-on-navy);text-decoration:none;">ai@paysyslabs.com</a></p>
+  <div class="footer-links">
+    <a href="tel:+971569349554">Contact Us</a>
+    <a href="#">Terms</a>
+    <a href="https://paysyslabs.com">paysyslabs.com</a>
+  </div>
+</footer>
+
+<script>
+var totalSlides=5,currentSlide=0,heroTimer;
+function goSlide(n){
+  document.getElementById('hs-'+currentSlide).classList.remove('active');
+  document.getElementById('hss-'+currentSlide).classList.remove('active');
+  document.querySelectorAll('.h-dot')[currentSlide].classList.remove('active');
+  currentSlide=n%totalSlides;
+  document.getElementById('hs-'+currentSlide).classList.add('active');
+  document.getElementById('hss-'+currentSlide).classList.add('active');
+  document.querySelectorAll('.h-dot')[currentSlide].classList.add('active');
+  clearInterval(heroTimer);heroTimer=setInterval(nextSlide,9000);
+}
+function nextSlide(){goSlide((currentSlide+1)%totalSlides);}
+heroTimer=setInterval(nextSlide,9000);
+document.querySelector('.hero').addEventListener('mouseenter',()=>clearInterval(heroTimer));
+document.querySelector('.hero').addEventListener('mouseleave',()=>{heroTimer=setInterval(nextSlide,9000);});
+function sw(btn){
+  document.querySelectorAll('.ai-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(btn.getAttribute('data-p')).classList.add('active');
+}
+</script>
+<script>
+// UTM Parameter Capture — stores source, medium, campaign for lead enrichment
+(function() {
+  var params = new URLSearchParams(window.location.search);
+  var utms = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
+  utms.forEach(function(k) {
+    var v = params.get(k);
+    if (v) sessionStorage.setItem(k, v);
+  });
+})();
+
+// Book a Demo Form Handler with Formspree
+document.getElementById('bookdemoform').addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  var form = this;
+  var submitBtn = document.getElementById('submitbtn');
+  var formData = new FormData(form);
+  
+  // Submit to Formspree endpoint
+  fetch('https://formspree.io/f/xbdejwbg', {
+    method: 'POST',
+    body: formData,
+    headers: {
+      'Accept': 'application/json'
+    }
+  })
+  .then(response => {
+    if (response.ok) {
+      // Change button text on successful submission
+      submitBtn.textContent = 'Submitted';
+      submitBtn.disabled = true;
+      // Reset form
+      form.reset();
+    } else {
+      alert('There was an error submitting the form. Please try again.');
+    }
+  })
+  .catch(error => {
+    alert('There was an error submitting the form. Please try again.');
+  });
+});
+</script>
+</body>
+</html>
